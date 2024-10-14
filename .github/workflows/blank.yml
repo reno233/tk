@@ -19,10 +19,16 @@ jobs:
       - name: Instalar servidor SSH
         run: sudo apt-get install -y openssh-server
 
-      - name: Configurar servidor SSH
+      - name: Configurar servidor SSH com nome de usuário e senha
         run: |
           sudo service ssh start
           echo "Servidor SSH iniciado."
+          # Adicionar o usuário personalizado
+          sudo useradd -m -s /bin/bash myuser
+          echo "myuser:mypassword" | sudo chpasswd  # Definir a senha para o usuário
+          sudo mkdir -p /home/myuser/.ssh
+          sudo chown -R myuser:myuser /home/myuser/.ssh
+          echo "Usuário 'myuser' criado com senha 'mypassword'."
 
       - name: Configurar ngrok com Authtoken
         run: |
@@ -48,5 +54,5 @@ jobs:
 
       - name: Manter o Workflow Ativo
         run: |
-          echo "Mantendo o workflow ativo. Conecte-se via SSH."
+          echo "Mantendo o workflow ativo. Conecte-se via SSH usando myuser/mypassword."
           tail -f /dev/null  # Mantém o processo ativo até que o workflow termine
