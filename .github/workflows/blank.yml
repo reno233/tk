@@ -30,7 +30,7 @@ jobs:
           echo "    const browser = await chromium.launch({ headless: true });" >> screenshot.js
           echo "    const context = await browser.newContext({ proxy: { server: proxyServer }, ignoreHTTPSErrors: true });" >> screenshot.js
           echo "    const page = await context.newPage();" >> screenshot.js
-          echo "    await context.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');" >> screenshot.js  # Mover User-Agent para o contexto
+          echo "    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');" >> screenshot.js  # Ajuste para definir User-Agent na página
           echo "    try {" >> screenshot.js
           echo "        const cookiesPath = path.resolve(__dirname, 'cookies.json');" >> screenshot.js
           echo "        const cookies = JSON.parse(fs.readFileSync(cookiesPath, 'utf-8'));" >> screenshot.js
