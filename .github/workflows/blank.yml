@@ -26,7 +26,7 @@ jobs:
           echo "const path = require('path');" >> screenshot.js
           echo "(async () => {" >> screenshot.js
           echo "    console.log('[INFO] Iniciando o script de automação.');" >> screenshot.js
-          echo "    const proxyServer = 'http://187.94.100.254:8080';" >> screenshot.js
+          echo "    const proxyServer = 'http://52.67.10.183:3128';" >> screenshot.js
           echo "    const browser = await chromium.launch({ headless: true });" >> screenshot.js
           echo "    const context = await browser.newContext({ proxy: { server: proxyServer } });" >> screenshot.js
           echo "    const page = await context.newPage();" >> screenshot.js  # Mover a criação da variável 'page' para aqui
