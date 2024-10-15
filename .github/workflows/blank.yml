@@ -17,6 +17,7 @@ jobs:
       - name: Install Playwright
         run: |
           npm install -D playwright
+          npx playwright install  # Adicionado para instalar os navegadores
 
       - name: Run Screenshot Script
         run: |
