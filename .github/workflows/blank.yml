@@ -17,16 +17,16 @@ jobs:
       - name: Install Playwright
         run: |
           npm install -D playwright
-          npx playwright install  # Adicionado para instalar os navegadores
+          npx playwright install  # Instala os navegadores
 
-      - name: Run Screenshot Script
+      - name: Create Screenshot Script
         run: |
           echo "const { chromium } = require('playwright');" > screenshot.js
           echo "const fs = require('fs');" >> screenshot.js
           echo "const path = require('path');" >> screenshot.js
           echo "(async () => {" >> screenshot.js
           echo "    console.log('[INFO] Iniciando o script de automação.');" >> screenshot.js
-          echo "    const browser = await chromium.launch({ headless: false });" >> screenshot.js
+          echo "    const browser = await chromium.launch({ headless: true });" >> screenshot.js
           echo "    const context = await browser.newContext();" >> screenshot.js
           echo "    try {" >> screenshot.js
           echo "        const cookiesPath = path.resolve(__dirname, 'cookies.json');" >> screenshot.js
@@ -53,6 +53,9 @@ jobs:
           echo "    await page.waitForTimeout(120000);" >> screenshot.js
           echo "    await browser.close();" >> screenshot.js
           echo "})();" >> screenshot.js
+
+      - name: Run Screenshot Script
+        run: node screenshot.js
 
       - name: Upload Screenshot
         uses: actions/upload-artifact@v4
