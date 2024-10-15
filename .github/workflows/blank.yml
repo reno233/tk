@@ -33,6 +33,7 @@ jobs:
           echo "        const cookies = JSON.parse(fs.readFileSync(cookiesPath, 'utf-8'));" >> screenshot.js
           echo "        await context.addCookies(cookies);" >> screenshot.js
           echo "        console.log('[INFO] Cookies carregados e aplicados com sucesso.');" >> screenshot.js
+          echo "        await page.screenshot({ path: 'screenshot_load_cookies.png' });" >> screenshot.js
           echo "    } catch (error) {" >> screenshot.js
           echo "        console.error('[ERROR] Erro ao carregar cookies:', error);" >> screenshot.js
           echo "        await browser.close();" >> screenshot.js
@@ -43,8 +44,7 @@ jobs:
           echo "        console.log('[INFO] Navegando para a URL do vídeo...');" >> screenshot.js
           echo "        await page.goto('https://www.tiktok.com/@stuckkonearth/video/7401193456355282219', { timeout: 100000, waitUntil: 'networkidle' });" >> screenshot.js
           echo "        console.log('[INFO] Página do vídeo acessada com sucesso.');" >> screenshot.js
-          echo "        await page.screenshot({ path: 'screenshot.png' });" >> screenshot.js
-          echo "        console.log('[INFO] Captura de tela salva como screenshot.png');" >> screenshot.js
+          echo "        await page.screenshot({ path: 'screenshot_page_accessed.png' });" >> screenshot.js
           echo "    } catch (error) {" >> screenshot.js
           echo "        console.error('[ERROR] Erro ao acessar a página:', error);" >> screenshot.js
           echo "        await browser.close();" >> screenshot.js
@@ -57,8 +57,10 @@ jobs:
       - name: Run Screenshot Script
         run: node screenshot.js
 
-      - name: Upload Screenshot
+      - name: Upload Screenshots
         uses: actions/upload-artifact@v4
         with:
-          name: screenshot
-          path: screenshot.png
+          name: screenshots
+          path: |
+            screenshot_load_cookies.png
+            screenshot_page_accessed.png
