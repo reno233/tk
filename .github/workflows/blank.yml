@@ -1,59 +1,37 @@
-name: Playwright Automation
+name: Screenshot Workflow
 
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+on: [push]
 
 jobs:
-  build:
+  screenshot:
     runs-on: ubuntu-latest
     steps:
-      - name: Instalar ngrok
-        run: |
-          curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
-          echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
-          sudo apt update && sudo apt install -y ngrok
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Instalar servidor SSH
-        run: sudo apt-get install -y openssh-server
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
 
-      - name: Criar usuário com permissões root
+      - name: Install Playwright
         run: |
-          sudo useradd -m -s /bin/bash myuser  # Cria o usuário
-          echo 'myuser:password' | sudo chpasswd  # Define a senha
-          sudo usermod -aG sudo myuser  # Adiciona o usuário ao grupo sudo
-          echo 'myuser ALL=(ALL) NOPASSWD:ALL' | sudo tee /etc/sudoers.d/myuser  # Concede sudo sem senha
+          npm install -D playwright
 
-      - name: Configurar servidor SSH
+      - name: Run Screenshot Script
         run: |
-          sudo service ssh start
-          echo "Servidor SSH iniciado."
+          echo "const { chromium } = require('playwright');" > screenshot.js
+          echo "async function run() {" >> screenshot.js
+          echo "  const browser = await chromium.launch(); const page = await browser.newPage();" >> screenshot.js
+          echo "  await page.goto('https://example.com');" >> screenshot.js
+          echo "  await page.screenshot({ path: 'screenshot.png' });" >> screenshot.js
+          echo "  await browser.close();" >> screenshot.js
+          echo "}" >> screenshot.js
+          echo "run();" >> screenshot.js
+          node screenshot.js
 
-      - name: Configurar ngrok com Authtoken
-        run: |
-          ngrok config add-authtoken ${{ secrets.NGROK_AUTHTOKEN }}  # Certifique-se de que o segredo esteja corretamente configurado
-
-      - name: Iniciar ngrok para SSH
-        run: |
-          ngrok tcp 22 --log=stdout > ngrok.log &
-          sleep 10  # Espera para garantir que o ngrok tenha tempo de iniciar
-
-      - name: Exibir URL do ngrok
-        run: |
-          echo "Aguardando ngrok iniciar..."
-          sleep 5  # Espera adicional para garantir que o ngrok esteja pronto
-          if grep -q 'tcp://' ngrok.log; then
-            echo "URL do ngrok:"
-            cat ngrok.log | grep -o 'tcp://[^ ]*'
-          else
-            echo "Erro: ngrok não iniciou corretamente."
-            cat ngrok.log
-            exit 1
-          fi
-
-      - name: Manter o Workflow Ativo
-        run: |
-          echo "Mantendo o workflow ativo. Conecte-se via SSH."
-          tail -f /dev/null  # Mantém o processo ativo até que o workflow termine
+      - name: Upload Screenshot
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshot
+          path: screenshot.png
