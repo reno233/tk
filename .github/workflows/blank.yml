@@ -28,18 +28,12 @@ jobs:
           echo "    console.log('[INFO] Iniciando o script de automação.');" >> screenshot.js
           echo "    const browser = await chromium.launch({ headless: true });" >> screenshot.js
           echo "    const context = await browser.newContext();" >> screenshot.js
-          echo "    try {" >> screenshot.js
-          echo "        const cookiesPath = path.resolve(__dirname, 'cookies.json');" >> screenshot.js
-          echo "        const cookies = JSON.parse(fs.readFileSync(cookiesPath, 'utf-8'));" >> screenshot.js
-          echo "        await context.addCookies(cookies);" >> screenshot.js
-          echo "        console.log('[INFO] Cookies carregados e aplicados com sucesso.');" >> screenshot.js
-          echo "        await page.screenshot({ path: 'screenshot_load_cookies.png' });" >> screenshot.js
-          echo "    } catch (error) {" >> screenshot.js
-          echo "        console.error('[ERROR] Erro ao carregar cookies:', error);" >> screenshot.js
-          echo "        await browser.close();" >> screenshot.js
-          echo "        process.exit(1);" >> screenshot.js
-          echo "    }" >> screenshot.js
+          echo "    const cookiesPath = path.resolve(__dirname, 'cookies.json');" >> screenshot.js
+          echo "    const cookies = JSON.parse(fs.readFileSync(cookiesPath, 'utf-8'));" >> screenshot.js
+          echo "    await context.addCookies(cookies);" >> screenshot.js
+          echo "    console.log('[INFO] Cookies carregados e aplicados com sucesso.');" >> screenshot.js
           echo "    const page = await context.newPage();" >> screenshot.js
+          echo "    await page.screenshot({ path: 'screenshot_load_cookies.png' });" >> screenshot.js
           echo "    try {" >> screenshot.js
           echo "        console.log('[INFO] Navegando para a URL do vídeo...');" >> screenshot.js
           echo "        await page.goto('https://www.tiktok.com/@stuckkonearth/video/7401193456355282219', { timeout: 100000, waitUntil: 'networkidle' });" >> screenshot.js
@@ -47,8 +41,6 @@ jobs:
           echo "        await page.screenshot({ path: 'screenshot_page_accessed.png' });" >> screenshot.js
           echo "    } catch (error) {" >> screenshot.js
           echo "        console.error('[ERROR] Erro ao acessar a página:', error);" >> screenshot.js
-          echo "        await browser.close();" >> screenshot.js
-          echo "        process.exit(1);" >> screenshot.js
           echo "    }" >> screenshot.js
           echo "    await page.waitForTimeout(120000);" >> screenshot.js
           echo "    await browser.close();" >> screenshot.js
