@@ -28,9 +28,9 @@ jobs:
           echo "    console.log('[INFO] Iniciando o script de automação.');" >> screenshot.js
           echo "    const browser = await chromium.launch({ headless: true });" >> screenshot.js
           echo "    const context = await browser.newContext({" >> screenshot.js
-          echo "        ignoreHTTPSErrors: true," >> screenshot.js  # Remover proxy e adicionar geolocalização
-          echo "        geolocation: { latitude: -23.5505, longitude: -46.6333 }," >> screenshot.js  # São Paulo, Brasil
-          echo "        permissions: ['geolocation']" >> screenshot.js  # Permissão para geolocalização
+          echo "        ignoreHTTPSErrors: true," >> screenshot.js
+          echo "        geolocation: { latitude: -23.5505, longitude: -46.6333 }," >> screenshot.js
+          echo "        permissions: ['geolocation']" >> screenshot.js
           echo "    });" >> screenshot.js
           echo "    const page = await context.newPage();" >> screenshot.js
           echo "    try {" >> screenshot.js
@@ -41,6 +41,7 @@ jobs:
           echo "        await page.screenshot({ path: 'screenshot_load_cookies.png' });" >> screenshot.js
           echo "    } catch (error) {" >> screenshot.js
           echo "        console.error('[ERROR] Erro ao carregar cookies:', error);" >> screenshot.js
+          echo "        await page.screenshot({ path: 'screenshot_error_cookies.png' });" >> screenshot.js  # Captura de tela em caso de erro
           echo "        await browser.close();" >> screenshot.js
           echo "        process.exit(1);" >> screenshot.js
           echo "    }" >> screenshot.js
@@ -51,10 +52,12 @@ jobs:
           echo "        await page.screenshot({ path: 'screenshot_page_accessed.png' });" >> screenshot.js
           echo "    } catch (error) {" >> screenshot.js
           echo "        console.error('[ERROR] Erro ao acessar a página:', error);" >> screenshot.js
+          echo "        await page.screenshot({ path: 'screenshot_error_page.png' });" >> screenshot.js  # Captura de tela em caso de erro
           echo "        await browser.close();" >> screenshot.js
           echo "        process.exit(1);" >> screenshot.js
           echo "    }" >> screenshot.js
           echo "    await page.waitForTimeout(120000);" >> screenshot.js
+          echo "    await page.screenshot({ path: 'screenshot_final.png' });" >> screenshot.js  # Captura de tela final antes de fechar o navegador
           echo "    await browser.close();" >> screenshot.js
           echo "})();" >> screenshot.js
 
@@ -68,3 +71,6 @@ jobs:
           path: |
             screenshot_load_cookies.png
             screenshot_page_accessed.png
+            screenshot_error_cookies.png
+            screenshot_error_page.png
+            screenshot_final.png
