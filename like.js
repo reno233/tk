@@ -29,6 +29,11 @@ const path = require('path'); // Importa o módulo path para manipular caminhos 
         console.log('[INFO] Navegando para a URL do vídeo...');
         await page.goto('https://www.tiktok.com/@stuckkonearth/video/7401193456355282219', { timeout: 100000, waitUntil: 'networkidle' });
         console.log('[INFO] Página do vídeo acessada com sucesso.');
+
+        // Captura de tela após carregar a página
+        await page.screenshot({ path: 'screenshot.png' }); // Captura de tela
+        console.log('[INFO] Captura de tela salva como screenshot.png');
+        
     } catch (error) {
         console.error('[ERROR] Erro ao acessar a página:', error);
         await browser.close();
@@ -89,5 +94,4 @@ const path = require('path'); // Importa o módulo path para manipular caminhos 
     console.log('[INFO] Fechando o navegador...');
     await browser.close();
     console.log('[INFO] Navegador fechado com sucesso.');
-    
 })();
