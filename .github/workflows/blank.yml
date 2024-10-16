@@ -30,6 +30,11 @@ jobs:
           echo "    const context = await browser.newContext({" >> screenshot.js
           echo "        recordVideo: { dir: 'videos/' },  // Ativa a gravação de vídeo" >> screenshot.js
           echo "        ignoreHTTPSErrors: true," >> screenshot.js
+          echo "        proxy: {" >> screenshot.js
+          echo "            server: 'http://200.239.216.199:50100'," >> screenshot.js
+          echo "            username: 'rennissonn'," >> screenshot.js
+          echo "            password: 'kGnPsmYpYm'" >> screenshot.js
+          echo "        }" >> screenshot.js
           echo "    });" >> screenshot.js
           echo "    const page = await context.newPage();" >> screenshot.js
           echo "    try {" >> screenshot.js
