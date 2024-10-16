@@ -26,13 +26,10 @@ jobs:
           echo "const path = require('path');" >> screenshot.js
           echo "(async () => {" >> screenshot.js
           echo "    console.log('[INFO] Iniciando o script de automação.');" >> screenshot.js
-          echo "    const browser = await chromium.launch({" >> screenshot.js
+          echo "    const userDataDir = '/home/runner/.config/google-chrome';" >> screenshot.js
+          echo "    const context = await chromium.launchPersistentContext(userDataDir, {" >> screenshot.js
           echo "        headless: false," >> screenshot.js
-          echo "        executablePath: '/usr/bin/google-chrome', // Caminho do Chrome no Ubuntu" >> screenshot.js
-          echo "        args: ['--user-data-dir=/home/runner/.config/google-chrome', '--profile-directory=Default']," >> screenshot.js
-          echo "    });" >> screenshot.js
-          echo "    const context = await browser.newContext({" >> screenshot.js
-          echo "        recordVideo: { dir: 'videos/' },  // Ativa a gravação de vídeo" >> screenshot.js
+          echo "        executablePath: '/usr/bin/google-chrome'," >> screenshot.js
           echo "        ignoreHTTPSErrors: true," >> screenshot.js
           echo "        proxy: {" >> screenshot.js
           echo "            server: 'http://200.239.216.199:50100'," >> screenshot.js
@@ -48,7 +45,7 @@ jobs:
           echo "        console.log('[INFO] Cookies carregados e aplicados com sucesso.');" >> screenshot.js
           echo "    } catch (error) {" >> screenshot.js
           echo "        console.error('[ERROR] Erro ao carregar cookies:', error);" >> screenshot.js
-          echo "        await browser.close();" >> screenshot.js
+          echo "        await context.close();" >> screenshot.js
           echo "        process.exit(1);" >> screenshot.js
           echo "    }" >> screenshot.js
           echo "    try {" >> screenshot.js
@@ -57,7 +54,7 @@ jobs:
           echo "        console.log('[INFO] Página do vídeo acessada com sucesso.');" >> screenshot.js
           echo "    } catch (error) {" >> screenshot.js
           echo "        console.error('[ERROR] Erro ao acessar a página:', error);" >> screenshot.js
-          echo "        await browser.close();" >> screenshot.js
+          echo "        await context.close();" >> screenshot.js
           echo "        process.exit(1);" >> screenshot.js
           echo "    }" >> screenshot.js
           echo "    console.log('[INFO] Pressionando a tecla Tab 5 vezes...');" >> screenshot.js
@@ -69,7 +66,7 @@ jobs:
           echo "    await page.keyboard.press('KeyL');" >> screenshot.js
           echo "    console.log('[INFO] Vídeo curtido com sucesso!');" >> screenshot.js
           echo "    await page.waitForTimeout(120000);" >> screenshot.js
-          echo "    await browser.close();" >> screenshot.js
+          echo "    await context.close();" >> screenshot.js
           echo "    console.log('[INFO] Finalizando o script e salvando o vídeo.');" >> screenshot.js
           echo "})();" >> screenshot.js
 
