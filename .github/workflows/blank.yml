@@ -28,7 +28,7 @@ jobs:
           echo "    console.log('[INFO] Iniciando o script de automação.');" >> screenshot.js
           echo "    const userDataDir = '/home/runner/.config/google-chrome';" >> screenshot.js
           echo "    const context = await chromium.launchPersistentContext(userDataDir, {" >> screenshot.js
-          echo "        headless: false," >> screenshot.js
+          echo "        headless: true," >> screenshot.js
           echo "        executablePath: '/usr/bin/google-chrome'," >> screenshot.js
           echo "        ignoreHTTPSErrors: true," >> screenshot.js
           echo "        proxy: {" >> screenshot.js
