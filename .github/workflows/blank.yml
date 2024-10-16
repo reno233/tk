@@ -26,7 +26,11 @@ jobs:
           echo "const path = require('path');" >> screenshot.js
           echo "(async () => {" >> screenshot.js
           echo "    console.log('[INFO] Iniciando o script de automação.');" >> screenshot.js
-          echo "    const browser = await chromium.launch({ headless: true });" >> screenshot.js
+          echo "    const browser = await chromium.launch({" >> screenshot.js
+          echo "        headless: false," >> screenshot.js
+          echo "        executablePath: '/usr/bin/google-chrome', // Caminho do Chrome no Ubuntu" >> screenshot.js
+          echo "        args: ['--user-data-dir=/home/runner/.config/google-chrome', '--profile-directory=Default']," >> screenshot.js
+          echo "    });" >> screenshot.js
           echo "    const context = await browser.newContext({" >> screenshot.js
           echo "        recordVideo: { dir: 'videos/' },  // Ativa a gravação de vídeo" >> screenshot.js
           echo "        ignoreHTTPSErrors: true," >> screenshot.js
