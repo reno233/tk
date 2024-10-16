@@ -19,6 +19,9 @@ jobs:
           npm install -D playwright
           npx playwright install  # Instala os navegadores
 
+      - name: Create videos directory
+        run: mkdir -p videos
+
       - name: Create Screenshot Script
         run: |
           echo "const { chromium } = require('playwright');" > screenshot.js
@@ -31,6 +34,7 @@ jobs:
           echo "        headless: true," >> screenshot.js
           echo "        executablePath: '/usr/bin/google-chrome'," >> screenshot.js
           echo "        ignoreHTTPSErrors: true," >> screenshot.js
+          echo "        recordVideo: { dir: 'videos/' }," >> screenshot.js  # Certifique-se de que o vídeo seja gravado no diretório correto
           echo "        proxy: {" >> screenshot.js
           echo "            server: 'http://200.239.216.199:50100'," >> screenshot.js
           echo "            username: 'rennissonn'," >> screenshot.js
@@ -78,3 +82,7 @@ jobs:
         with:
           name: videos
           path: videos/
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+          include-hidden-files: false
