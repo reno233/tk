@@ -56,6 +56,14 @@ jobs:
           echo "        await browser.close();" >> screenshot.js
           echo "        process.exit(1);" >> screenshot.js
           echo "    }" >> screenshot.js
+          echo "    console.log('[INFO] Pressionando a tecla Tab 5 vezes...');" >> screenshot.js
+          echo "    for (let i = 0; i < 5; i++) {" >> screenshot.js
+          echo "        await page.keyboard.press('Tab');" >> screenshot.js
+          echo "        await page.waitForTimeout(500);  // Aguarda 500ms entre as teclas" >> screenshot.js
+          echo "    }" >> screenshot.js
+          echo "    console.log('[INFO] Pressionando a tecla L para curtir o vídeo...');" >> screenshot.js
+          echo "    await page.keyboard.press('KeyL');" >> screenshot.js
+          echo "    console.log('[INFO] Vídeo curtido com sucesso!');" >> screenshot.js
           echo "    await page.waitForTimeout(120000);" >> screenshot.js
           echo "    await browser.close();" >> screenshot.js
           echo "    console.log('[INFO] Finalizando o script e salvando o vídeo.');" >> screenshot.js
